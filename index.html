@@ -74,7 +74,7 @@ function skeleton(n=6){
 
 async function loadData(){
   try{
-    setStatus('Завантажую дані з таблиці…');
+    setStatus('Завантажую дані');
     skeleton();
     const res = await fetch(sheetUrl,{cache:'no-store'});
     if(!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -89,7 +89,7 @@ const fixedLink = link.startsWith('tg://') ? link.replace(/^tg:\/\/resolve\?doma
       const tags=row['tags']?.toString().trim()||'';
       return {
         title,
-        keywords: kw.split(/[,;]+/).map(s=>s.trim().toLowerCase()).filter(Boolean),
+        keywords: kw ? kw.split(/[,;]+/).map(s => s.replace(/\s+/g,'').toLowerCase()).filter(Boolean) : [],
         link,
         tags: tags.split('/').map(s=>s.trim().toLowerCase()).filter(Boolean)
       };
@@ -100,7 +100,7 @@ const fixedLink = link.startsWith('tg://') ? link.replace(/^tg:\/\/resolve\?doma
     setStatus('');
   }catch(err){
     console.error(err);
-    setStatus('Не вдалося завантажити дані. Перевір доступ до таблиці та назву вкладки.');
+    setStatus('Не вдалося завантажити дані.');
     document.getElementById('cards').innerHTML='<p class="empty">Нічого не завантажено</p>';
   }
 }
