@@ -89,7 +89,9 @@ const fixedLink = link.startsWith('tg://') ? link.replace(/^tg:\/\/resolve\?doma
       const tags=row['tags']?.toString().trim()||'';
       return {
         title,
-        keywords: kw ? kw.split(/[,;]+/).map(s => s.replace(/\s+/g,'').toLowerCase()).filter(Boolean) : [],
+        keywords: kw
+  ? kw.split(',').map(s => s.trim().toLowerCase()).filter(Boolean)
+  : [],
         link,
         tags: tags.split('/').map(s=>s.trim().toLowerCase()).filter(Boolean)
       };
